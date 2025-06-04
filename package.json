@@ -1,0 +1,23 @@
+{
+  "name": "tu_salud",
+  "version": "1.0.0",
+  "description": "Introducción - - - - X\r * El proyecto tiene como objetivo optimizar\r y mejorar la experiencia tanto de los\r médicos como de los pacientes, brindando\r una gestión eficiente y accesible de la\r atención médica. A través de esta solución,\r los usuarios podrán administrar sus turnos\r de manera sencilla, gestionar sus llamadas\r de forma organizada y acceder a información\r actualizada sobre la disponibilidad de su\r médico de cabecera. Además, el sistema\r permitirá llevar un control preciso de las\r recetas médicas, asegurando que los\r tratamientos se mantengan al día de la",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felivasquez/Tu_Salud.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felivasquez/Tu_Salud/issues"
+  },
+  "homepage": "https://github.com/felivasquez/Tu_Salud#readme",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}
