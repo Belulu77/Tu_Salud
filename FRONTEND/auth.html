@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Salud Es Primero - Login/Registro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #bfdbfe, #93c5fd); /* Azul claro a celeste */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #60a5fa; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Navbar de Navegación (Header) -->
+    <nav class="bg-blue-800 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center flex-wrap">
+            <a href="index.html" class="text-white text-2xl font-bold rounded-md px-3 py-2 hover:bg-blue-700 transition-colors duration-300">Tu Salud Es Primero</a>
+            <div class="block lg:hidden">
+                <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-blue-200 border-blue-400 hover:text-white hover:border-white">
+                    <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-6z"/></svg>
+                </button>
+            </div>
+            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden" id="nav-content">
+                <ul class="text-lg lg:flex-grow lg:flex lg:justify-end items-center">
+                    <li><a href="index.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Inicio</a></li>
+                    <li><a href="turnos.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Turnos</a></li>
+                    <li><a href="recetas.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Recetas</a></li>
+                    <li><a href="contactanos.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Contactos</a></li>
+                    <li><a href="ubicacion.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Ubicación</a></li>
+                    <li><a href="auth.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Login/Registro</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal de Autenticación -->
+    <main class="container mx-auto p-6 flex-grow">
+        <section class="bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto my-8">
+            <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">Acceder a Tu Salud</h2>
+
+            <!-- Formulario de Login -->
+            <div id="login-form">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-4">Iniciar Sesión</h3>
+                <form onsubmit="event.preventDefault(); handleLogin();">
+                    <div class="mb-4">
+                        <label for="login-email" class="block text-gray-700 text-sm font-bold mb-2">Correo Electrónico:</label>
+                        <input type="email" id="login-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="tu@ejemplo.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="login-password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña:</label>
+                        <input type="password" id="login-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="********" required>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline transition-colors duration-300">
+                            Iniciar Sesión
+                        </button>
+                        <a href="#" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" onclick="alert('Funcionalidad de recuperación de contraseña no implementada en este demo.')">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+                </form>
+                <p class="text-center text-gray-600 text-sm mt-6">
+                    ¿No tienes una cuenta? <a href="#" class="text-blue-500 hover:text-blue-800 font-bold" onclick="toggleAuthForm()">Regístrate aquí</a>
+                </p>
+            </div>
+
+            <!-- Formulario de Registro (inicialmente oculto) -->
+            <div id="register-form" class="hidden">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-4">Registrarse</h3>
+                <form onsubmit="event.preventDefault(); handleRegister();">
+                    <div class="mb-4">
+                        <label for="register-name" class="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
+                        <input type="text" id="register-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="Tu Nombre" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-lastname" class="block text-gray-700 text-sm font-bold mb-2">Apellido:</label>
+                        <input type="text" id="register-lastname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="Tu Apellido" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-email" class="block text-gray-700 text-sm font-bold mb-2">Correo Electrónico:</label>
+                        <input type="email" id="register-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="tu@ejemplo.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña:</label>
+                        <input type="password" id="register-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="********" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="register-confirm-password" class="block text-gray-700 text-sm font-bold mb-2">Confirmar Contraseña:</label>
+                        <input type="password" id="register-confirm-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="********" required>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline transition-colors duration-300">
+                            Registrarse
+                        </button>
+                    </div>
+                </form>
+                <p class="text-center text-gray-600 text-sm mt-6">
+                    ¿Ya tienes una cuenta? <a href="#" class="text-blue-500 hover:text-blue-800 font-bold" onclick="toggleAuthForm()">Inicia Sesión aquí</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white p-6 mt-8 shadow-inner">
+        <div class="container mx-auto text-center text-sm">
+            <p>&copy; 2025 Tu Salud Es Primero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para el toggle del menú de navegación en móviles
+        document.getElementById('nav-toggle').onclick = function () {
+            document.getElementById('nav-content').classList.toggle('hidden');
+            document.getElementById('nav-content').classList.toggle('lg:flex');
+        };
+
+        // JavaScript para alternar entre formularios de Login y Registro
+        function toggleAuthForm() {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            if (loginForm.classList.contains('hidden')) {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            }
+        }
+
+        // Simulación de Login
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            if (email && password) {
+                // Aquí iría la lógica de autenticación real con el backend
+                alert(`Simulando login para: ${email}. En un sistema real, esto se conectaría a tu backend.`);
+                window.location.href = 'index.html'; // Redirige al inicio después de un login simulado
+            } else {
+                alert('Por favor, ingresa tu correo y contraseña.');
+            }
+        }
+
+        // Simulación de Registro
+        function handleRegister() {
+            const name = document.getElementById('register-name').value;
+            const lastname = document.getElementById('register-lastname').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden.');
+                return;
+            }
+            if (name && lastname && email && password) {
+                // Aquí iría la lógica de registro real con el backend
+                alert(`Simulando registro para: ${name} ${lastname} (${email}). En un sistema real, esto se conectaría a tu backend.`);
+                toggleAuthForm(); // Vuelve al formulario de login
+            } else {
+                alert('Por favor, completa todos los campos.');
+            }
+        }
+    </script>
+</body>
+</html>

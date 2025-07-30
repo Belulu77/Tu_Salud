@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Salud Es Primero - Turnos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #bfdbfe, #93c5fd); /* Azul claro a celeste */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #60a5fa; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Navbar de Navegación (Header) -->
+    <nav class="bg-blue-800 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center flex-wrap">
+            <a href="index.html" class="text-white text-2xl font-bold rounded-md px-3 py-2 hover:bg-blue-700 transition-colors duration-300">Tu Salud Es Primero</a>
+            <div class="block lg:hidden">
+                <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-blue-200 border-blue-400 hover:text-white hover:border-white">
+                    <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-6z"/></svg>
+                </button>
+            </div>
+            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden" id="nav-content">
+                <ul class="text-lg lg:flex-grow lg:flex lg:justify-end items-center">
+                    <li><a href="index.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Inicio</a></li>
+                    <li><a href="turnos.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Turnos</a></li>
+                    <li><a href="recetas.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Recetas</a></li>
+                    <li><a href="contactanos.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Contactos</a></li>
+                    <li><a href="ubicacion.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Ubicación</a></li>
+                    <li><a href="auth.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Login/Registro</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal de Turnos -->
+    <main class="container mx-auto p-6 flex-grow">
+        <section class="bg-white p-8 rounded-lg shadow-xl my-8">
+            <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">Gestión de Turnos Médicos</h2>
+
+            <!-- Formulario para Solicitar Turno -->
+            <div class="mb-8 p-6 bg-blue-50 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-4">Solicitar Nuevo Turno</h3>
+                <form id="request-appointment-form" onsubmit="event.preventDefault(); requestAppointment();">
+                    <div class="mb-4">
+                        <label for="appointment-specialty" class="block text-gray-700 text-sm font-bold mb-2">Especialidad:</label>
+                        <select id="appointment-specialty" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" required>
+                            <option value="">Seleccione una especialidad</option>
+                            <option value="Cardiología">Cardiología</option>
+                            <option value="Dermatología">Dermatología</option>
+                            <option value="Clínica Médica">Clínica Médica</option>
+                            <option value="Pediatría">Pediatría</option>
+                            <option value="Odontología">Odontología</option>
+                            <option value="Oftalmología">Oftalmología</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="appointment-doctor" class="block text-gray-700 text-sm font-bold mb-2">Médico (Opcional):</label>
+                        <input type="text" id="appointment-doctor" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" placeholder="Ej: Dra. Ana Gómez">
+                    </div>
+                    <div class="mb-4">
+                        <label for="appointment-date" class="block text-gray-700 text-sm font-bold mb-2">Fecha Preferida:</label>
+                        <input type="date" id="appointment-date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="appointment-time" class="block text-gray-700 text-sm font-bold mb-2">Hora Preferida:</label>
+                        <input type="time" id="appointment-time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md" required>
+                    </div>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline transition-colors duration-300">
+                        Solicitar Turno
+                    </button>
+                </form>
+            </div>
+
+            <!-- Lista de Turnos Confirmados -->
+            <div class="p-6 bg-blue-50 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-4">Mis Turnos</h3>
+                <div id="appointments-list" class="space-y-4">
+                    <p class="text-center text-gray-500" id="no-appointments-message">No tienes turnos agendados.</p>
+                    <!-- Los turnos se cargarán aquí con JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white p-6 mt-8 shadow-inner">
+        <div class="container mx-auto text-center text-sm">
+            <p>&copy; 2025 Tu Salud Es Primero. Todos los derechos reservados.</p>
+                </div>
+    </footer>
+
+    <script>
+        // JavaScript para el toggle del menú de navegación en móviles
+        document.getElementById('nav-toggle').onclick = function () {
+            document.getElementById('nav-content').classList.toggle('hidden');
+            document.getElementById('nav-content').classList.toggle('lg:flex');
+        };
+
+        // Lógica de gestión de turnos (simulada en frontend)
+        let appointments = JSON.parse(localStorage.getItem('appointments')) || []; // Cargar desde localStorage
+
+        function saveAppointments() {
+            localStorage.setItem('appointments', JSON.stringify(appointments)); // Guardar en localStorage
+        }
+
+        function renderAppointments() {
+            const appointmentsList = document.getElementById('appointments-list');
+            appointmentsList.innerHTML = ''; // Limpiar lista
+            const noAppointmentsMessage = document.getElementById('no-appointments-message');
+
+            if (appointments.length === 0) {
+                noAppointmentsMessage.classList.remove('hidden');
+            } else {
+                noAppointmentsMessage.classList.add('hidden');
+                appointments.forEach((appointment, index) => {
+                    const appointmentItem = `
+                        <div class="bg-white p-4 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center border border-blue-100">
+                            <div>
+                                <h4 class="font-bold text-lg text-blue-700">${appointment.specialty}</h4>
+                                <p class="text-gray-600 text-sm">Médico: ${appointment.doctor || 'Cualquiera'}</p>
+                                <p class="text-gray-600 text-sm">Fecha: ${appointment.date} - Hora: ${appointment.time}</p>
+                            </div>
+                            <button onclick="deleteAppointment(${index})" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-md mt-3 sm:mt-0 transition-colors duration-300">
+                                Cancelar
+                            </button>
+                        </div>
+                    `;
+                    appointmentsList.innerHTML += appointmentItem;
+                });
+            }
+        }
+
+        function requestAppointment() {
+            const specialty = document.getElementById('appointment-specialty').value;
+            const doctor = document.getElementById('appointment-doctor').value;
+            const date = document.getElementById('appointment-date').value;
+            const time = document.getElementById('appointment-time').value;
+
+            if (specialty && date && time) {
+                appointments.push({ specialty, doctor, date, time });
+                saveAppointments();
+                renderAppointments();
+                document.getElementById('request-appointment-form').reset(); // Limpiar formulario
+                alert('Turno solicitado exitosamente. Recibirás una confirmación.');
+            } else {
+                alert('Por favor, completa los campos obligatorios (Especialidad, Fecha, Hora).');
+            }
+        }
+
+        function deleteAppointment(index) {
+            if (confirm('¿Estás seguro de que quieres cancelar este turno?')) {
+                appointments.splice(index, 1);
+                saveAppointments();
+                renderAppointments();
+                alert('Turno cancelado.');
+            }
+        }
+
+        // Cargar turnos al cargar la página
+        document.addEventListener('DOMContentLoaded', renderAppointments);
+    </script>
+</body>
+</html>

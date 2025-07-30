@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Salud Es Primero - Inicio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #bfdbfe, #93c5fd); /* Azul claro a celeste */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #60a5fa; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Navbar de Navegación (Header) -->
+    <nav class="bg-blue-800 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center flex-wrap">
+            <a href="index.html" class="text-white text-2xl font-bold rounded-md px-3 py-2 hover:bg-blue-700 transition-colors duration-300">Tu Salud Es Primero</a>
+            <div class="block lg:hidden">
+                <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-blue-200 border-blue-400 hover:text-white hover:border-white">
+                    <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-6z"/></svg>
+                </button>
+            </div>
+            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden" id="nav-content">
+                <ul class="text-lg lg:flex-grow lg:flex lg:justify-end items-center">
+                    <li><a href="index.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Inicio</a></li>
+                    <li><a href="turnos.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Turnos</a></li>
+                    <li><a href="recetas.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Recetas</a></li>
+                    <li><a href="contactanos.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Contactos</a></li>
+                    <li><a href="ubicacion.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4 p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Ubicación</a></li>
+                    <li><a href="auth.html" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white p-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Login/Registro</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal de Inicio -->
+    <main class="container mx-auto p-6 flex-grow">
+        <section class="bg-white p-8 rounded-lg shadow-xl my-8">
+            <h1 class="text-4xl font-bold text-center text-blue-800 mb-6">Bienvenido a Tu Salud Es Primero</h1>
+            <p class="text-lg text-gray-700 mb-4">
+                En **Tu Salud Es Primero**, nos dedicamos a optimizar y mejorar tu experiencia en la gestión de tu atención médica. Nuestra plataforma está diseñada para brindarte acceso eficiente y accesible a todas tus necesidades de salud, desde la solicitud de turnos hasta la gestión de tus recetas.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-4">Nuestros Servicios Clave</h2>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>**Gestión de Turnos:** Solicita y recibe recordatorios automáticos de tus citas médicas.</li>
+                        <li>**Recetas Digitales:** Accede y gestiona todas tus recetas de forma segura y digital.</li>
+                        <li>**Disponibilidad Médica:** Consulta en tiempo real si tu médico de cabecera está disponible.</li>
+                        <li>**Consultas Virtuales:** Realiza consultas médicas a través de nuestra aplicación.</li>
+                        <li>**Perfil Personal:** Actualiza tus datos y preferencias de forma sencilla.</li>
+                    </ul>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-4">Tu Bienestar, Nuestra Prioridad</h2>
+                    <p class="text-gray-700 mb-4">
+                        Entendemos los desafíos de coordinar tu atención médica. Con "Tu Salud Es Primero", buscamos simplificar este proceso, permitiéndote tener un control total sobre tu salud, sin olvidos ni complicaciones. Nuestro objetivo es transformar tu experiencia, haciéndola más accesible, eficiente y centrada en tu bienestar integral.
+                    </p>
+                    <img src="https://placehold.co/600x300/ADD8E6/000000?text=Atencion+Medica+Digital" alt="Atención Médica Digital" class="w-full h-48 object-cover rounded-md shadow-sm mt-4">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white p-6 mt-8 shadow-inner">
+        <div class="container mx-auto text-center text-sm">
+            <p>&copy; 2025 Tu Salud Es Primero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para el toggle del menú de navegación en móviles
+        document.getElementById('nav-toggle').onclick = function () {
+            document.getElementById('nav-content').classList.toggle('hidden');
+            document.getElementById('nav-content').classList.toggle('lg:flex');
+        };
+    </script>
+</body>
+</html>
