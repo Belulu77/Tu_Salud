@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Receta</title>
+    <!-- Tailwind CSS CDN para un diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 p-8 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Editar una Receta</h1>
+        <div class="space-y-4">
+            <div>
+                <label for="editRecetaId" class="block text-gray-700 font-semibold mb-2">ID de la Receta a Editar</label>
+                <div class="flex space-x-2">
+                    <input type="text" id="editRecetaId" placeholder="Ej: 1" class="flex-grow px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    <button id="loadButton" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+                        Cargar
+                    </button>
+                </div>
+            </div>
+            
+            <form id="editForm" class="hidden space-y-4">
+                <input type="hidden" id="receta_id_field" name="id">
+                <div>
+                    <label for="edit_titulo" class="block text-gray-700 font-semibold mb-2">Título</label>
+                    <input type="text" id="edit_titulo" name="titulo" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="edit_ingredientes" class="block text-gray-700 font-semibold mb-2">Ingredientes</label>
+                    <textarea id="edit_ingredientes" name="ingredientes" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" rows="3"></textarea>
+                </div>
+                <div>
+                    <label for="edit_instrucciones" class="block text-gray-700 font-semibold mb-2">Instrucciones</label>
+                    <textarea id="edit_instrucciones" name="instrucciones" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500" rows="5"></textarea>
+                </div>
+                <div>
+                    <label for="edit_diagnostico_id" class="block text-gray-700 font-semibold mb-2">ID del Diagnóstico</label>
+                    <input type="text" id="edit_diagnostico_id" name="diagnostico_id" required class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-orange-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-orange-700 transition duration-300 transform hover:scale-105">
+                    Guardar Cambios
+                </button>
+            </form>
+            <p id="message" class="mt-4 text-center text-sm font-semibold"></p>
+        </div>
+    </div>
+
+    <script>
+        // La URL base de la API para la entidad de recetas.
+        const API_URL = 'http://localhost:3000/recetas';
+
+        const editRecetaIdInput = document.getElementById('editRecetaId');
+        const loadButton = document.getElementById('loadButton');
+        const editForm = document.getElementById('editForm');
+        const messageElement = document.getElementById('message');
+
+        // Campos del formulario
+        const recetaIdField = document.getElementById('receta_id_field');
+        const tituloInput = document.getElementById('edit_titulo');
+        const ingredientesInput = document.getElementById('edit_ingredientes');
+        const instruccionesInput = document.getElementById('edit_instrucciones');
+        const diagnosticoIdInput = document.getElementById('edit_diagnostico_id');
+
+        // Función para cargar los datos de la receta en el formulario
+        loadButton.addEventListener('click', async () => {
+            const id = editRecetaIdInput.value;
+            if (!id) {
+                messageElement.textContent = 'Por favor, ingresa un ID de receta.';
+                messageElement.classList.remove('text-green-600');
+                messageElement.classList.add('text-red-600');
+                return;
+            }
+            
+            console.log(`Cargando datos de la receta con ID: ${id}...`);
+            messageElement.textContent = 'Cargando...';
+            messageElement.classList.remove('text-red-600', 'text-green-600');
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`);
+                if (!response.ok) {
+                    throw new Error(`Receta no encontrada. Código de estado: ${response.status}`);
+                }
+
+                const receta = await response.json();
+                console.log('Datos de la receta cargados:', receta);
+
+                // Rellena el formulario con los datos de la receta
+                recetaIdField.value = receta.id;
+                tituloInput.value = receta.titulo;
+                ingredientesInput.value = receta.ingredientes;
+                instruccionesInput.value = receta.instrucciones;
+                diagnosticoIdInput.value = receta.diagnostico_id;
+
+                editForm.classList.remove('hidden');
+                messageElement.textContent = 'Datos de la receta cargados. Puedes editar y guardar.';
+                messageElement.classList.remove('text-red-600');
+                messageElement.classList.add('text-green-600');
+
+            } catch (error) {
+                console.error('Error al cargar los datos de la receta:', error);
+                editForm.classList.add('hidden');
+                messageElement.textContent = `Error: ${error.message}`;
+                messageElement.classList.remove('text-green-600');
+                messageElement.classList.add('text-red-600');
+            }
+        });
+
+        // Función para enviar la solicitud de actualización (PUT)
+        editForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const id = recetaIdField.value;
+            if (!id) {
+                messageElement.textContent = 'No hay un ID de receta para editar.';
+                messageElement.classList.add('text-red-600');
+                return;
+            }
+            
+            const formData = new FormData(editForm);
+            const updatedReceta = Object.fromEntries(formData.entries());
+
+            // El ID ya está en el formulario, pero lo obtenemos por separado para la URL
+            delete updatedReceta.id; 
+
+            console.log(`Enviando solicitud PUT para la receta con ID: ${id}...`, updatedReceta);
+            messageElement.textContent = 'Guardando cambios...';
+            messageElement.classList.remove('text-red-600', 'text-green-600');
+            
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedReceta),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error al actualizar la receta. Código de estado: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Receta actualizada exitosamente:', result);
+                messageElement.textContent = 'Receta actualizada exitosamente.';
+                messageElement.classList.remove('text-red-600');
+                messageElement.classList.add('text-green-600');
+
+            } catch (error) {
+                console.error('Error al actualizar la receta:', error);
+                messageElement.textContent = `Error: ${error.message}`;
+                messageElement.classList.remove('text-green-600');
+                messageElement.classList.add('text-red-600');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostrar y Eliminar Receta</title>
+    <!-- Tailwind CSS CDN para un diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 p-8 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Ver y Eliminar una Receta</h1>
+        <div class="space-y-4">
+            <div>
+                <label for="recetaId" class="block text-gray-700 font-semibold mb-2">ID de la Receta</label>
+                <div class="flex space-x-2">
+                    <input type="text" id="recetaId" placeholder="Ej: 1" class="flex-grow px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    <button id="fetchButton" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+                        Ver Receta
+                    </button>
+                </div>
+            </div>
+            <div id="recetaDetails" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Detalles de la Receta</h2>
+                <pre id="recetaData" class="whitespace-pre-wrap text-sm text-gray-600"></pre>
+                <button id="deleteButton" class="mt-4 w-full bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-red-700 transition duration-300 transform hover:scale-105">
+                    Eliminar Receta
+                </button>
+            </div>
+            <p id="message" class="mt-4 text-center text-sm font-semibold"></p>
+        </div>
+    </div>
+
+    <script>
+        // La URL base de la API para la entidad de recetas.
+        const API_URL = 'http://localhost:3000/recetas';
+
+        const recetaIdInput = document.getElementById('recetaId');
+        const fetchButton = document.getElementById('fetchButton');
+        const deleteButton = document.getElementById('deleteButton');
+        const recetaDetailsDiv = document.getElementById('recetaDetails');
+        const recetaDataPre = document.getElementById('recetaData');
+        const messageElement = document.getElementById('message');
+
+        // Función para obtener una receta por su ID
+        fetchButton.addEventListener('click', async () => {
+            const id = recetaIdInput.value;
+            if (!id) {
+                messageElement.textContent = 'Por favor, ingresa un ID de receta.';
+                messageElement.classList.remove('text-green-600');
+                messageElement.classList.add('text-red-600');
+                return;
+            }
+
+            console.log(`Buscando receta con ID: ${id}...`);
+            messageElement.textContent = 'Cargando...';
+            messageElement.classList.remove('text-red-600', 'text-green-600');
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`);
+
+                if (!response.ok) {
+                    throw new Error(`Receta no encontrada. Código de estado: ${response.status}`);
+                }
+
+                const receta = await response.json();
+                console.log('Receta obtenida:', receta);
+
+                // Muestra los detalles de la receta en el DOM
+                recetaDataPre.textContent = JSON.stringify(receta, null, 2);
+                recetaDetailsDiv.classList.remove('hidden');
+                messageElement.textContent = 'Receta cargada correctamente.';
+                messageElement.classList.remove('text-red-600');
+                messageElement.classList.add('text-green-600');
+
+            } catch (error) {
+                console.error('Error al obtener la receta:', error);
+                recetaDetailsDiv.classList.add('hidden');
+                messageElement.textContent = `Error: ${error.message}`;
+                messageElement.classList.remove('text-green-600');
+                messageElement.classList.add('text-red-600');
+            }
+        });
+
+        // Función para eliminar una receta
+        deleteButton.addEventListener('click', async () => {
+            const id = recetaIdInput.value;
+            if (!id) {
+                messageElement.textContent = 'Por favor, ingresa un ID de receta para eliminar.';
+                messageElement.classList.remove('text-green-600');
+                messageElement.classList.add('text-red-600');
+                return;
+            }
+
+            console.log(`Enviando solicitud DELETE para la receta con ID: ${id}...`);
+            messageElement.textContent = 'Eliminando...';
+            messageElement.classList.remove('text-red-600', 'text-green-600');
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error al eliminar la receta. Código de estado: ${response.status}`);
+                }
+
+                console.log('Receta eliminada exitosamente.');
+                messageElement.textContent = `Receta con ID ${id} eliminada exitosamente.`;
+                messageElement.classList.remove('text-red-600');
+                messageElement.classList.add('text-green-600');
+
+                // Oculta los detalles de la receta después de la eliminación
+                recetaDetailsDiv.classList.add('hidden');
+
+            } catch (error) {
+                console.error('Error al eliminar la receta:', error);
+                messageElement.textContent = `Error: ${error.message}`;
+                messageElement.classList.remove('text-green-600');
+                messageElement.classList.add('text-red-600');
+            }
+        });
+    </script>
+</body>
+</html>
